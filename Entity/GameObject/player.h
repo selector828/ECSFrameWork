@@ -5,7 +5,7 @@
 class Player : public Entity
 {
 public:
-	Player(void)
+	Player(Entity * parent) : Entity(parent)
 	{
 		printf("%s\n", __FUNCTION__);
 	}

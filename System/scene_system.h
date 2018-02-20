@@ -30,9 +30,9 @@ private:
 
 	}
 public:
-	template<class T> T * const SetCurrentScene(void)
+	template<class T, class ... Args> T * const SetCurrentScene(Args ... args)
 	{
 		delete this->current_scene_;
-		return static_cast<T*>(this->current_scene_ = new T);
+		return static_cast<T*>(this->current_scene_ = new T(nullptr, args ...));
 	}
 };

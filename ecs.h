@@ -92,10 +92,10 @@ public:
 		auto name = typeid(T).name();
 		return static_cast<T*>(this->components_[name]);
 	}
-	template<class T> T * const AddComponent(void)
+	template<class T, class ... Args> T * const AddComponent(Args ... args)
 	{
 		auto name = typeid(T).name();
-		this->component_[name] = new T(this);
+		this->component_[name] = new T(this, args...);
 		return static_cast<T*>(this->components_[name]);
 	}
 	template<class T> void RemoveComponent(void)
@@ -106,9 +106,9 @@ public:
 	}
 	
 public:
-	template<class T> void AddChild(void)
+	template<class T, class ... Args> void AddChild(Args ... args)
 	{
-		this->children_.emplace_back(new T(this));
+		this->children_.emplace_back(new T(this, args ...));
 	}
 
 public:
@@ -160,14 +160,12 @@ public:
 	static void Run(void)
 	{
 		while (Game::running_)
-		{
 			for (auto sys : Game::system_)
 			{
 				sys.second->$Begin();
 				sys.second->$Run();
 				sys.second->$End();
 			}
-		}
 
 		for (auto sys : Game::system_)
 			delete sys.second;

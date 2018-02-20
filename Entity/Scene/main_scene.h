@@ -7,7 +7,7 @@
 class MainScene : public Entity
 {
 public:
-	MainScene(void)
+	MainScene(Entity * parent) : Entity(parent)
 	{
 		printf("%s\n", __FUNCTION__);
 		this->AddChild<Player>();

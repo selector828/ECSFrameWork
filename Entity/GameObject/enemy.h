@@ -5,7 +5,7 @@
 class Enemy : public Entity
 {
 public:
-	Enemy(void)
+	Enemy(Entity * parent) : Entity(parent)
 	{
 		printf("%s\n", __FUNCTION__);
 	}

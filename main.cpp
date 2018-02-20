@@ -1,31 +1,12 @@
 #include <stdio.h>
-#include "ecs.h"
-#include "scene_manager.h"
-#include "enemy.h"
-#include "player.h"
-
-class MainScene : public Entity
-{
-public:
-	MainScene(void)
-	{
-		printf("%s\n", __FUNCTION__);
-		this->AddChild<Player>();
-		this->AddChild<Enemy>();
-		this->AddChild<Player>();
-	}
-
-public:
-	void $Update(void) override { printf("%s\n", __FUNCTION__); }
-	void $Pause(void) override { printf("%s\n", __FUNCTION__); }
-	void $Always(void) override { printf("%s\n", __FUNCTION__); }
-};
+#include <System\scene_system.h>
+#include <Entity\Scene\main_scene.h>
 
 void main(void)
 {
-	Game::AddManager<SceneManager>();
+	Game::AddSystem<SceneSystem>();
 	
-	Game::GetManager<SceneManager>()->SetCurrentScene<MainScene>();
+	Game::GetSystem<SceneSystem>()->SetCurrentScene<MainScene>();
 	
 	Game::Run();
 }

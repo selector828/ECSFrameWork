@@ -1,14 +1,20 @@
 #pragma once
 
-#include "ecs.h"
+#include <ecs.h>
+#include <Entity\GameObject\player.h>
+#include <Entity\GameObject\enemy.h>
 
-class Player : public Entity
+class MainScene : public Entity
 {
 public:
-	Player(void)
+	MainScene(void)
 	{
 		printf("%s\n", __FUNCTION__);
+		this->AddChild<Player>();
+		this->AddChild<Enemy>();
+		this->AddChild<Player>();
 	}
+
 public:
 	void $Update(void) override { printf("%s\n", __FUNCTION__); }
 	void $Pause(void) override { printf("%s\n", __FUNCTION__); }

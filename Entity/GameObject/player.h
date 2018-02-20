@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ecs.h"
+#include <ecs.h>
 
-class Enemy : public Entity
+class Player : public Entity
 {
 public:
-	Enemy(void)
+	Player(void)
 	{
 		printf("%s\n", __FUNCTION__);
 	}

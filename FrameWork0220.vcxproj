@@ -71,9 +71,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -146,9 +148,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ecs.h" />
-    <ClInclude Include="enemy.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="scene_manager.h" />
+    <ClInclude Include="Entity\GameObject\enemy.h" />
+    <ClInclude Include="Entity\GameObject\player.h" />
+    <ClInclude Include="Entity\Scene\main_scene.h" />
+    <ClInclude Include="System\scene_system.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

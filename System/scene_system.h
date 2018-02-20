@@ -1,11 +1,11 @@
 #pragma once
 
-#include "ecs.h"
+#include <ecs.h>
 
-class SceneManager : public Manager
+class SceneSystem : public System
 {
 public:
-	~SceneManager(void)
+	~SceneSystem(void)
 	{
 		delete this->current_scene_;
 	}

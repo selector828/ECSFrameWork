@@ -13,6 +13,7 @@ class Component
 	friend class Entity;
 
 public:
+	Component(Entity * parent) : parent_(parent) {}
 	virtual ~Component(void) {}
 
 private:
@@ -32,9 +33,11 @@ public:
 
 class Entity
 {
-	friend class Manager;
+	friend class System;
 
 public:
+	Entity(Entity * parent) : parent_(parent) {}
+
 	virtual ~Entity(void)
 	{
 		for (auto component : this->components_)
@@ -92,8 +95,7 @@ public:
 	template<class T> T * const AddComponent(void)
 	{
 		auto name = typeid(T).name();
-		this->component_[name] = new T;
-		this->components_[name]->parent_ = this;
+		this->component_[name] = new T(this);
 		return static_cast<T*>(this->components_[name]);
 	}
 	template<class T> void RemoveComponent(void)
@@ -106,23 +108,26 @@ public:
 public:
 	template<class T> void AddChild(void)
 	{
-		this->children_.emplace_back(new T);
-		this->children_.back()->parent_ = this;
+		this->children_.emplace_back(new T(this));
 	}
 
 public:
+	Entity * const GetParent(void)
+	{
+		return this->parent_;
+	}
 	void Destroy(void)
 	{
 		this->destroy_ = true;
 	}
 };
 
-class Manager
+class System
 {
 	friend class Game;
 
 public:
-	virtual ~Manager(void) {}
+	virtual ~System(void) {}
 
 private:
 	virtual void $Begin(void) = 0;
@@ -133,20 +138,20 @@ private:
 class Game
 {
 private:
-	static unordered_map<string, Manager*> manager_;
+	static unordered_map<string, System*> system_;
 	static bool running_;
 
 public:
-	template<class T> static T * const GetManager(void)
+	template<class T> static T * const GetSystem(void)
 	{
 		auto name = typeid(T).name();
-		return static_cast<T*>(Game::manager_[name]);
+		return static_cast<T*>(Game::system_[name]);
 	}
-	template<class T> static T * const AddManager(void)
+	template<class T> static T * const AddSystem(void)
 	{
 		auto name = typeid(T).name();
-		Game::manager_[name] = new T;
-		return static_cast<T*>(Game::manager_[name]);
+		Game::system_[name] = new T;
+		return static_cast<T*>(Game::system_[name]);
 	}
 	static void ShutDown(void)
 	{
@@ -156,18 +161,18 @@ public:
 	{
 		while (Game::running_)
 		{
-			for (auto mng : Game::manager_)
+			for (auto sys : Game::system_)
 			{
-				mng.second->$Begin();
-				mng.second->$Run();
-				mng.second->$End();
+				sys.second->$Begin();
+				sys.second->$Run();
+				sys.second->$End();
 			}
 		}
 
-		for (auto mng : Game::manager_)
-			delete mng.second;
+		for (auto sys : Game::system_)
+			delete sys.second;
 	}
 };
 
-unordered_map<string, Manager*> Game::manager_ = {};
+unordered_map<string, System*> Game::system_ = {};
 bool Game::running_ = true;

@@ -8,12 +8,6 @@ using std::vector;
 using std::unordered_map;
 using std::string;
 
-namespace _window
-{
-	template<class T> constexpr T width_ = 1280;
-	template<class T> constexpr T height_ = 920;
-}
-
 class Component
 {
 	friend class Entity;

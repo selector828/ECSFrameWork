@@ -23,8 +23,6 @@ public:
 
 void main(void)
 {
-	printf("%d\n", _window::width_<int>);
-
 	Game::AddManager<SceneManager>();
 	
 	Game::GetManager<SceneManager>()->SetCurrentScene<MainScene>();

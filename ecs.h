@@ -1,8 +1,28 @@
 #pragma once
 
+#pragma warning(disable : 4005)
+#pragma warning(disable : 4316)
+#pragma warning(disable : 4455)
+#pragma warning(disable : 4996)
+
+//Windows API
+#include <windows.h>
+
+#include <d3d11.h>
+#include <d3dx10.h>
+#include <d3dx11.h>
+#include <DirectXMath.h>
+#include <d3dCompiler.h>
 #include <unordered_map>
 #include <vector>
 #include <typeinfo>
+
+//必要なライブラリファイルのロード
+#pragma comment(lib,"winmm.lib")
+#pragma comment(lib,"d3dx10.lib")
+#pragma comment(lib,"d3d11.lib")
+#pragma comment(lib,"d3dx11.lib")
+#pragma comment(lib,"d3dCompiler.lib")
 
 using std::vector;
 using std::unordered_map;
@@ -142,12 +162,12 @@ private:
 	static bool running_;
 
 public:
-	template<class T> static T * const GetSystem(void)
+	template<class T> static T * const Get(void)
 	{
 		auto name = typeid(T).name();
 		return static_cast<T*>(Game::system_[name]);
 	}
-	template<class T> static T * const AddSystem(void)
+	template<class T> static T * const Add(void)
 	{
 		auto name = typeid(T).name();
 		Game::system_[name] = new T;
@@ -157,7 +177,7 @@ public:
 	{
 		Game::running_ = false;
 	}
-	static void Run(void)
+	static void $Run(void)
 	{
 		while (Game::running_)
 			for (auto sys : Game::system_)

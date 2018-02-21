@@ -1,8 +1,9 @@
 #pragma once
 
 #include <ecs.h>
+#include <windows.h>
 
-class SceneSystem : public System
+class SceneSystem final: public System
 {
 public:
 	~SceneSystem(void)
